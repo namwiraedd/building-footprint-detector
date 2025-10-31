@@ -1,0 +1,48 @@
+
+---
+
+### `docker/docker-compose.yml`
+```yaml
+version: '3.8'
+services:
+  app:
+    build: ../src
+    command: gunicorn app.wsgi:application --bind 0.0.0.0:8000
+    volumes:
+      - ../src:/srv/app
+      - ./config:/srv/config
+    env_file:
+      - ../config/.env
+    ports:
+      - "8000:8000"
+    depends_on:
+      - redis
+      - db
+
+  worker:
+    build: ../src
+    command: celery -A app.celery_app worker --loglevel=info
+    volumes:
+      - ../src:/srv/app
+      - ./config:/srv/config
+    env_file:
+      - ../config/.env
+    depends_on:
+      - redis
+      - db
+
+  redis:
+    image: redis:6
+    ports: ["6379:6379"]
+
+  db:
+    image: postgres:14
+    environment:
+      POSTGRES_DB: bfd
+      POSTGRES_USER: bfd
+      POSTGRES_PASSWORD: bfdpass
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
