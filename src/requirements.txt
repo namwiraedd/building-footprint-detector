@@ -1,0 +1,12 @@
+Django>=4.0
+djangorestframework
+celery[redis]
+rasterio
+geopandas
+shapely
+torch
+torchvision
+numpy
+pandas
+psycopg2-binary
+affine
