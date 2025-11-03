@@ -41,19 +41,19 @@ Automated pipeline to detect building footprints from Sentinel-2 imagery using c
 
 Explain POST /api/detect/ with sample AOI and how to poll /api/detect/{job_id}. (Include sample cURL).
 
-How to integrate your provided modules
+How to integrate your provided modules:
 
-Copy your cloud-free generator module to plugins/cloud_free.py. Implement generate_cloud_free(aoi_geojson, reference_date) -> path_to_tif.
+1. Copy your cloud-free generator module to plugins/cloud_free.py. Implement generate_cloud_free(aoi_geojson, reference_date) -> path_to_tif.
 
-Copy your super-resolution module to plugins/superres.py. Implement super_resolve(input_tif, tile_bbox) -> path_to_sr_tile.
+2. Copy your super-resolution module to plugins/superres.py. Implement super_resolve(input_tif, tile_bbox) -> path_to_sr_tile.
 
-Ensure both modules return absolute paths accessible by Docker containers (mount host dirs).
+3. Ensure both modules return absolute paths accessible by Docker containers (mount host dirs).
 
 Local dev & testing
 
-cd docker && docker-compose up --build -d
+1. cd docker && docker-compose up --build -d
 
-Ensure config/.env exists (copy config/example.env and edit)
+2. Ensure config/.env exists (copy config/example.env and edit)
 
 Create DB migrations:
 
